@@ -17,9 +17,20 @@ const HALF_LIFE_PERIOD = 5730;
  * dateSample('WOOT!') => false
  *
  */
-function dateSample(/* sampleActivity */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function dateSample(sampleActivity) {
+    if (typeof sampleActivity !== 'string' || isNaN(parseFloat(sampleActivity))) {
+        return false;
+    }
+
+    const activity = parseFloat(sampleActivity);
+
+    if (activity <= 0 || activity > MODERN_ACTIVITY) {
+        return false;
+    }
+
+    const k = 0.693 / HALF_LIFE_PERIOD; //decay rate (formula HALF_LIFE_PERIOD = 0.693 / k)
+    const age = Math.ceil(Math.log(MODERN_ACTIVITY / activity) / k); // t = (1 / k) * ln(N₀ / N)
+    return age;
 }
 
 module.exports = {
